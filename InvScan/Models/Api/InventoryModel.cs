@@ -7,12 +7,14 @@ namespace InvScan.Models.Api
 {
     public class InventoryStack
     {
-        [Key]
-        public int Id { get; set; }
-
-        public int Slot { get; set; }
-        public int Size { get; set; }
+        [Key, Column(Order = 0)]
         public int InventoryId { get; set; }
+
+        [Key, Column(Order = 1)]
+        public int Slot { get; set; }
+
+        public int Size { get; set; }
+        public int Id { get; set; }
         public int Damage { get; set; }
         public string RawName { get; set; }
         public string DisplayName { get; set; }

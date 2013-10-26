@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Data.Entity;
 using InvScan.Models.Api;
+using System.Linq;
+using System.Web.Http;
 
 namespace InvScan.Controllers.Api
 {
     public class InventoryController : ApiController
     {
-        private InventoryDbContext _inventoryDb = new InventoryDbContext();
-        private InventoryStackDbContext _inventoryStackDb = new InventoryStackDbContext();
+        private readonly InventoryDbContext _inventoryDb = new InventoryDbContext();
+        private readonly InventoryStackDbContext _inventoryStackDb = new InventoryStackDbContext();
 
         // GET api/<controller>
         public Inventory[] Get()
@@ -25,7 +22,7 @@ namespace InvScan.Controllers.Api
             Inventory inventory = _inventoryDb.Inventories.Find(id);
             if (inventory != null)
             {
-                inventory.Stacks = _inventoryStackDb.Stacks.Where(stack => stack.Id == inventory.Id).ToList();
+                inventory.Stacks = _inventoryStackDb.Stacks.Where(stack => stack.InventoryId == inventory.Id).ToList();
             }
             return inventory;
         }
@@ -40,6 +37,7 @@ namespace InvScan.Controllers.Api
 
             foreach (InventoryStack stack in inventory.Stacks)
             {
+                System.Diagnostics.Debug.WriteLine("Stack: " + stack.DisplayName);
                 stack.InventoryId = id;
                 _inventoryStackDb.Stacks.Add(stack);
             }
@@ -51,18 +49,7 @@ namespace InvScan.Controllers.Api
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]Inventory inventory)
         {
-            var query = from inv in _inventoryDb.Inventories where inv.Id == id select inv;
-
-            foreach (Inventory inv in query)
-            {
-                inv.Compress = inventory.Compress;
-                inv.IsPlayer = inventory.IsPlayer;
-                inv.Name = inventory.Name;
-                inv.X = inventory.X;
-                inv.Y = inventory.Y;
-                inv.Z = inventory.Z;
-            }
-
+            _inventoryDb.Entry(inventory).State = EntityState.Modified;
             _inventoryDb.SaveChangesAsync();
 
             _inventoryStackDb.Stacks.RemoveRange(_inventoryStackDb.Stacks.Where(stack => stack.InventoryId == id));
