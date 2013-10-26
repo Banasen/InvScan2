@@ -1,0 +1,32 @@
+﻿@model InvScan.Models.ExternalLoginConfirmationViewModel
+@{
+    ViewBag.Title = "Registrieren";
+}
+
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    <h3>Associate your @ViewBag.LoginProvider account.</h3>
+</hgroup>
+
+@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Zuordnungsformular</legend>
+       <p class="text-success">
+            Sie haben sich erfolgreich authentifiziert mit <strong>@ViewBag.LoginProvider</strong>.
+            Bitte geben Sie unten einen Benutzernamen für diese Website ein, und klicken Sie dann auf die Schaltfläche "Registrieren", um die Anmeldung
+            fertigzustellen.
+        </p>
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+        <br />
+        <input type="submit" class="btn" value="Registrieren" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

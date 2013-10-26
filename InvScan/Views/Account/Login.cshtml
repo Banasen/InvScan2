@@ -1,0 +1,60 @@
+﻿@model InvScan.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Anmelden";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+<div class="row-fluid">
+    <div class="span6">
+        <section id="loginForm">
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <fieldset class="form-horizontal">
+                    <legend>Lokales Konto für die Anmeldung verwenden.</legend>
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.UserName)
+                            @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "help-inline" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.PasswordFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "help-inline" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Anmelden" class="btn" />
+                    </div>
+                </fieldset>
+                <p>
+                    @Html.ActionLink("Registrieren", "Register") wenn Sie kein lokales Konto besitzen.
+                </p>
+            }
+        </section>
+    </div>
+    <div class="span6">
+        <section id="socialLoginForm">
+
+            @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

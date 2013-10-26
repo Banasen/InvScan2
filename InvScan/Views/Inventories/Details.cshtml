@@ -1,0 +1,65 @@
+﻿@model InvScan.Models.Api.Inventory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Inventory</legend>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPlayer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPlayer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Compress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Compress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.X)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.X)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Y)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Y)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Z)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Z)
+        </dd>
+
+    </dl>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
