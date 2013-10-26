@@ -7,7 +7,6 @@
 *.sln.docstates
 
 # Build results
-
 [Dd]ebug/
 [Rr]elease/
 x64/
@@ -76,8 +75,8 @@ _TeamCity*
 *.ncrunch*
 .*crunch*.local.xml
 
-# Installshield output folder
-[Ee]xpress/
+# Installshield output folder 
+[Ee]xpress
 
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
@@ -96,8 +95,7 @@ publish/
 *.Publish.xml
 
 # NuGet Packages Directory
-## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages
 
 # Windows Azure Build Output
 csx
@@ -120,6 +118,12 @@ ClientBin/
 
 # RIA/Silverlight projects
 Generated_Code/
+[Bb]in
+[Oo]bj
+sql
+TestResults
+[Tt]est[Rr]esult*
+[Ss]tyle[Cc]op.*
 
 # Backup & report files from converting an old project file to a newer
 # Visual Studio version. Backup files are not needed, because we have git ;-)
