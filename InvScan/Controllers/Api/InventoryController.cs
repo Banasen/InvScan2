@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -10,33 +11,12 @@ namespace InvScan.Controllers.Api
     public class InventoryController : ApiController
     {
         private InventoryDbContext _inventoryDb = new InventoryDbContext();
-        private  InventoryStackDbContext _inventoryStackDb = new InventoryStackDbContext();
+        private InventoryStackDbContext _inventoryStackDb = new InventoryStackDbContext();
 
         // GET api/<controller>
-        public Inventory Get()
+        public Inventory[] Get()
         {
-            Inventory nInventory = new Inventory();
-            nInventory.Compress = false;
-            nInventory.Id = 1;
-            nInventory.IsPlayer = true;
-            nInventory.Name = "Banane9";
-            InventoryStack stack = new InventoryStack();
-            stack.Damage = 0;
-            stack.DisplayName = "Stone";
-            stack.RawName = "Stone";
-            stack.InventoryId = 1;
-            stack.IsEnchanted = false;
-            stack.Size = 34;
-            stack.Slot = 3;
-            nInventory.Stacks = new List<InventoryStack>(new InventoryStack[]{stack});
-            _inventoryStackDb.Stacks.Add(stack);
-            _inventoryStackDb.SaveChanges();
-            nInventory.X = 0;
-            nInventory.Y = 0;
-            nInventory.Z = 0;
-            _inventoryDb.Inventories.Add(nInventory);
-            _inventoryDb.SaveChanges();
-            return nInventory;
+            return _inventoryDb.Inventories.ToArray();
         }
 
         // GET api/<controller>/5
@@ -51,8 +31,20 @@ namespace InvScan.Controllers.Api
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public int Post([FromBody]Inventory inventory)
         {
+            _inventoryDb.Inventories.Add(inventory);
+            _inventoryDb.SaveChanges();
+            int id = _inventoryDb.Inventories.Max(inv => inv.Id);
+
+            foreach (InventoryStack stack in inventory.Stacks)
+            {
+                stack.InventoryId = id;
+                _inventoryStackDb.Stacks.Add(stack);
+            }
+            _inventoryStackDb.SaveChangesAsync();
+
+            return id;
         }
 
         // PUT api/<controller>/5
