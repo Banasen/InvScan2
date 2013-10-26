@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 
 namespace InvScan.Models.Api
@@ -8,6 +9,7 @@ namespace InvScan.Models.Api
     {
         [Key]
         public int Id { get; set; }
+
         public int Slot { get; set; }
         public int Size { get; set; }
         public int InventoryId { get; set; }
@@ -26,12 +28,15 @@ namespace InvScan.Models.Api
     {
         [Key]
         public int Id { get; set; }
+
         public bool IsPlayer { get; set; }
         public bool Compress { get; set; }
         public string Name { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int Z { get; set; }
+
+        [NotMapped]
         public List<InventoryStack> Stacks { get; set; }
     }
 

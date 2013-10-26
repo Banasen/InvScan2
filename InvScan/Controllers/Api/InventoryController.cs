@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -28,6 +29,8 @@ namespace InvScan.Controllers.Api
             stack.Size = 34;
             stack.Slot = 3;
             nInventory.Stacks = new List<InventoryStack>(new InventoryStack[]{stack});
+            _inventoryStackDb.Stacks.Add(stack);
+            _inventoryStackDb.SaveChanges();
             nInventory.X = 0;
             nInventory.Y = 0;
             nInventory.Z = 0;
@@ -40,6 +43,10 @@ namespace InvScan.Controllers.Api
         public Inventory Get(int id)
         {
             Inventory inventory = _inventoryDb.Inventories.Find(id);
+            if (inventory != null)
+            {
+                inventory.Stacks = _inventoryStackDb.Stacks.Where(stack => stack.Id == inventory.Id).ToList();
+            }
             return inventory;
         }
 
